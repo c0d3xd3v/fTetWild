@@ -77,6 +77,8 @@ include(FloatTetwildDependencies)
 ################################################################################
 
 find_package(GMP)
+message(STATUS "GMP_LIBRARIES : ${GMP_LIBRARIES}")
+message(STATUS "GMP_INCLUDE_DIRS : ${GMP_INCLUDE_DIRS}")
 #IF(NOT ${GMP_FOUND})
 #	MESSAGE(FATAL_ERROR "Cannot find GMP")
 #ENDIF()
