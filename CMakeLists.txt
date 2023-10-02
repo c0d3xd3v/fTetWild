@@ -161,6 +161,15 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 			${PROJECT_NAME}
 			CLI11::CLI11
 			warnings::all
+			igl::core
+			igl::predicates
+			geogram::geogram
+			spdlog::spdlog
+			Threads::Threads
+			#		fast_winding_number
+			json
+			${GMP_LIBRARIES}
+			# ${MPFR_LIBRARIES}
 	)
 
 	if(TARGET igl::tetgen)
