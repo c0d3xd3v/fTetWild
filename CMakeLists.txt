@@ -176,8 +176,8 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
 	endif()
 
-	 set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
-	  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+	 #set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
+	 #MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 endif()
 
 ################################################################################
