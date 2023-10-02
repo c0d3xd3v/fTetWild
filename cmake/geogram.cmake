@@ -26,7 +26,7 @@ message(STATUS "Found Geogram here: ${GEOGRAM_ROOT}")
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	set(VORPALINE_ARCH_64 TRUE CACHE BOOL "" FORCE)
 	set(VORPALINE_PLATFORM Win-vs-generic CACHE STRING "" FORCE)
-	set(VORPALINE_BUILD_DYNAMIC true CACHE STRING "" FORCE)
+	set(VORPALINE_BUILD_DYNAMIC false CACHE STRING "" FORCE)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	set(VORPALINE_PLATFORM Linux64-gcc CACHE STRING "" FORCE)
 	set(VORPALINE_BUILD_DYNAMIC false CACHE STRING "" FORCE)
@@ -71,8 +71,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	target_link_libraries(geogram_wrapper INTERFACE geogram OpenMP::OpenMP_CXX)
 else()
 	add_library(geogram::geogram ALIAS geogram)
- set_property(TARGET geogram PROPERTY
-  	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+ #set_property(TARGET geogram PROPERTY
+ # 	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 endif()
 
 ################################################################################
