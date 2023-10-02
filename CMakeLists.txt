@@ -111,6 +111,9 @@ if(FLOAT_TETWILD_WITH_SANITIZERS)
 	add_sanitizers(${PROJECT_NAME})
 endif()
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY
+  	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+
 ################################################################################
 # Required libraries
 ################################################################################
@@ -172,6 +175,9 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 	if(NOT (${CMAKE_VERSION} VERSION_LESS "3.6.0"))
 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
 	endif()
+
+	 set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
+	  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 endif()
 
 ################################################################################
