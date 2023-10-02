@@ -111,8 +111,8 @@ if(FLOAT_TETWILD_WITH_SANITIZERS)
 	add_sanitizers(${PROJECT_NAME})
 endif()
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY
-  	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+#set_property(TARGET ${PROJECT_NAME} PROPERTY
+#  	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 
 ################################################################################
 # Required libraries
