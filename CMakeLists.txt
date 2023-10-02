@@ -70,7 +70,7 @@ if(FLOAT_TETWILD_WITH_SANITIZERS)
 endif()
 
 # Setup dependencies
-include(FloatTetwildDependencies)
+# include(FloatTetwildDependencies)
 
 ################################################################################
 # FloatTetwild library
@@ -83,10 +83,25 @@ message(STATUS "GMP_INCLUDE_DIRS : ${GMP_INCLUDE_DIRS}")
 #	MESSAGE(FATAL_ERROR "Cannot find GMP")
 #ENDIF()
 
-# find_package(MPFR)
-# IF(NOT ${MPFR_FOUND})
-# 	MESSAGE(FATAL_ERROR "Cannot find MPFR")
-# ENDIF()
+find_package(TBB)
+#IF(NOT ${TBB_FOUND})
+#	MESSAGE(FATAL_ERROR "Cannot find TBB")
+#ENDIF()
+
+find_package(FMP)
+#IF(NOT ${FMP_FOUND})
+#	MESSAGE(FATAL_ERROR "Cannot find FMP")
+#ENDIF()
+
+find_package(CLI11)
+#IF(NOT ${CLI11_FOUND})
+#	MESSAGE(FATAL_ERROR "Cannot find CLI11")
+#ENDIF()
+
+#find_package(MPFR)
+#IF(NOT ${MPFR_FOUND})
+#	MESSAGE(FATAL_ERROR "Cannot find MPFR")
+#ENDIF()
 
 # add_library() can only be called without any source since CMake 3.11 ...
 add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
