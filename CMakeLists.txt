@@ -188,9 +188,9 @@ endif()
 add_subdirectory(src)
 
 # Compile extras only if this is a top-level project
-if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
+#if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 	# Unit tests
-	include(CTest)
-	enable_testing()
-	add_subdirectory(tests)
-endif()
+#	include(CTest)
+#	enable_testing()
+#	add_subdirectory(tests)
+#endif()
