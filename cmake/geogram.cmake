@@ -71,8 +71,8 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	target_link_libraries(geogram_wrapper INTERFACE geogram OpenMP::OpenMP_CXX)
 else()
 	add_library(geogram::geogram ALIAS geogram)
- #set_property(TARGET geogram PROPERTY
- # 	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+ 	set_property(TARGET geogram PROPERTY
+ 	 	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>DLL")
 endif()
 
 ################################################################################
