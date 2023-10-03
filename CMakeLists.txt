@@ -70,32 +70,21 @@ if(FLOAT_TETWILD_WITH_SANITIZERS)
 endif()
 
 # Setup dependencies
-# include(FloatTetwildDependencies)
+include(FloatTetwildDependencies)
 
 ################################################################################
 # FloatTetwild library
 ################################################################################
 
 find_package(GMP)
-message(STATUS "GMP_LIBRARIES : ${GMP_LIBRARIES}")
-message(STATUS "GMP_INCLUDE_DIRS : ${GMP_INCLUDE_DIRS}")
-#IF(NOT ${GMP_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find GMP")
-#ENDIF()
+IF(NOT ${GMP_FOUND})
+	MESSAGE(FATAL_ERROR "Cannot find GMP")
+ENDIF()
 
-find_package(GMP)
-find_package(TBB)
-find_package(FMT)
-find_package(CLI11)
-find_package(IGL)
-find_package(spdlog)
-find_package(geogram)
-
-
-#find_package(MPFR)
-#IF(NOT ${MPFR_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find MPFR")
-#ENDIF()
+# find_package(MPFR)
+# IF(NOT ${MPFR_FOUND})
+# 	MESSAGE(FATAL_ERROR "Cannot find MPFR")
+# ENDIF()
 
 # add_library() can only be called without any source since CMake 3.11 ...
 add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
@@ -119,9 +108,6 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 if(FLOAT_TETWILD_WITH_SANITIZERS)
 	add_sanitizers(${PROJECT_NAME})
 endif()
-
-#set_property(TARGET ${PROJECT_NAME} PROPERTY
-#  	MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 
 ################################################################################
 # Required libraries
@@ -170,15 +156,6 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 			${PROJECT_NAME}
 			CLI11::CLI11
 			warnings::all
-			igl::core
-			igl::predicates
-			geogram::geogram
-			spdlog::spdlog
-			Threads::Threads
-			#		fast_winding_number
-			json
-			${GMP_LIBRARIES}
-			# ${MPFR_LIBRARIES}
 	)
 
 	if(TARGET igl::tetgen)
@@ -193,9 +170,6 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 	if(NOT (${CMAKE_VERSION} VERSION_LESS "3.6.0"))
 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
 	endif()
-
-	 #set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
-	 #MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 endif()
 
 ################################################################################
@@ -206,9 +180,9 @@ endif()
 add_subdirectory(src)
 
 # Compile extras only if this is a top-level project
-#if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
+if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 	# Unit tests
-#	include(CTest)
-#	enable_testing()
-#	add_subdirectory(tests)
-#endif()
+	include(CTest)
+	enable_testing()
+	add_subdirectory(tests)
+endif()
