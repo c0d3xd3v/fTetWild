@@ -131,6 +131,8 @@ target_link_libraries(${PROJECT_NAME}
 		${GMP_LIBRARIES}
 		# ${MPFR_LIBRARIES}
 )
+set_property(TARGET ${PROJECT_NAME} PROPERTY
+	     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 if(FLOAT_TETWILD_ENABLE_TBB)
 	target_link_libraries(${PROJECT_NAME} PUBLIC tbb::tbb)
 	target_compile_definitions(${PROJECT_NAME} PUBLIC FLOAT_TETWILD_USE_TBB)
