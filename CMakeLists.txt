@@ -83,6 +83,7 @@ message(STATUS "GMP_INCLUDE_DIRS : ${GMP_INCLUDE_DIRS}")
 #	MESSAGE(FATAL_ERROR "Cannot find GMP")
 #ENDIF()
 
+find_package(GMP)
 find_package(TBB)
 find_package(FMT)
 find_package(CLI11)
