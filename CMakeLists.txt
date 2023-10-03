@@ -158,7 +158,7 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 			warnings::all
 	)
 	set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
-             	     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>:DLL")
+             	     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 	if(TARGET igl::tetgen)
 		target_link_libraries(${PROJECT_NAME} PUBLIC igl::tetgen)
 		target_compile_definitions(${PROJECT_NAME} PUBLIC -DLIBIGL_WITH_TETGEN)
