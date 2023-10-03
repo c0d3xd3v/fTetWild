@@ -84,19 +84,12 @@ message(STATUS "GMP_INCLUDE_DIRS : ${GMP_INCLUDE_DIRS}")
 #ENDIF()
 
 find_package(TBB)
-#IF(NOT ${TBB_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find TBB")
-#ENDIF()
-
-find_package(FMP)
-#IF(NOT ${FMP_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find FMP")
-#ENDIF()
-
+find_package(FMT)
 find_package(CLI11)
-#IF(NOT ${CLI11_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find CLI11")
-#ENDIF()
+find_package(IGL)
+find_package(spdlog)
+find_package(geogram)
+
 
 #find_package(MPFR)
 #IF(NOT ${MPFR_FOUND})
