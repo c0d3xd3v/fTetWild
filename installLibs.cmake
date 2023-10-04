@@ -1,4 +1,5 @@
 message(STATUS "Try to install Tetwild libs from ${CMAKE_CURRENT_BINARY_DIR}")
+
 FILE(GLOB_RECURSE lib_list *.lib)
 list(LENGTH lib_list lib_list_count)
 FOREACH(_LIB ${lib_list})
@@ -6,3 +7,9 @@ FOREACH(_LIB ${lib_list})
     file(INSTALL ${_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 ENDFOREACH()
 
+FILE(GLOB_RECURSE header_list "*.h")
+list(LENGTH header_list header_list_count)
+FOREACH(_HEADER ${header_list})
+    get_filename_component(FN ${_HEADER} NAME)
+    file(INSTALL ${_HEADER} DESTINATION ${CMAKE_INSTALL_PREFIX}/include/floattetwild)
+ENDFOREACH()
