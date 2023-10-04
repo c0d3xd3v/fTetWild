@@ -131,10 +131,8 @@ target_link_libraries(${PROJECT_NAME}
 		geogram::geogram
 		spdlog::spdlog
 		Threads::Threads
-#		fast_winding_number
 		json
 		${GMP_LIBRARIES}
-		# ${MPFR_LIBRARIES}
 )
 if(FLOAT_TETWILD_ENABLE_TBB)
 	target_link_libraries(${PROJECT_NAME} PUBLIC tbb::tbb)
@@ -153,8 +151,10 @@ endif()
 
 # Main executable
 if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-        add_executable(${PROJECT_NAME}_bin src/main.cpp)
-        target_compile_features(${PROJECT_NAME}_bin PUBLIC cxx_std_11)
+
+         add_executable(${PROJECT_NAME}_bin src/main.cpp)
+         target_compile_features(${PROJECT_NAME}_bin PUBLIC cxx_std_11)
+         target_include_directories(${PROJECT_NAME}_bin PUBLIC ${PROJECT_BINARY_DIR}/include)
 
         set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
                      MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
@@ -162,15 +162,15 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
         target_link_libraries(${PROJECT_NAME}_bin
                         PUBLIC
                         #${PROJECT_NAME}
+                        #
                         igl::core
                         igl::predicates
                         geogram::geogram
                         spdlog::spdlog
                         Threads::Threads
-        #		fast_winding_number
                         json
                         ${GMP_LIBRARIES}
-                        # ${MPFR_LIBRARIES}
+                        #
                         CLI11::CLI11
                         warnings::all
         )
