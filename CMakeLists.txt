@@ -1,5 +1,12 @@
 ################################################################################
 cmake_minimum_required(VERSION 3.8)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
+set(CMAKE_USER_MAKE_RULES_OVERRIDE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
+set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
+
+
 project(FloatTetwild)
 ################################################################################
 
@@ -153,18 +160,9 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 
         target_link_libraries(${PROJECT_NAME}_bin
                         PUBLIC
-        #		${PROJECT_NAME}
+                        ${PROJECT_NAME}
                         CLI11::CLI11
                         warnings::all
-                        igl::core
-                        igl::predicates
-                        geogram::geogram
-                        spdlog::spdlog
-                        Threads::Threads
-        #		fast_winding_number
-                        json
-                        ${GMP_LIBRARIES}
-                        # ${MPFR_LIBRARIES}
         )
 
         if(TARGET igl::tetgen)
