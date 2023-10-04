@@ -161,7 +161,7 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 
         target_link_libraries(${PROJECT_NAME}_bin
                         PUBLIC
-                        #${PROJECT_NAME}
+                        ${PROJECT_NAME}
                         #
                         igl::core
                         igl::predicates
