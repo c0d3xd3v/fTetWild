@@ -24,8 +24,6 @@ else()
 	set(FLOAT_TETWILD_EXTERNAL ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/)
 endif()
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
 # Color output
 include(UseColors)
 
@@ -156,7 +154,10 @@ endif()
 # Main executable
 if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
         add_executable(${PROJECT_NAME}_bin src/main.cpp)
-        #target_compile_features(${PROJECT_NAME}_bin PUBLIC ${CXX14_FEATURES})
+        target_compile_features(${PROJECT_NAME}_bin PUBLIC cxx_std_11)
+
+        set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
+                     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 
         target_link_libraries(${PROJECT_NAME}_bin
                         PUBLIC
