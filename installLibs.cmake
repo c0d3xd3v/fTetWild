@@ -1,4 +1,4 @@
-message(STATUS "Try to install Tetwild libs .....")
+message(STATUS "Try to install Tetwild libs from ${CMAKE_CURRENT_BINARY_DIR}")
 FILE(GLOB_RECURSE lib_list *.a)
 list(LENGTH lib_list lib_list_count)
 FOREACH(_LIB ${lib_list})
