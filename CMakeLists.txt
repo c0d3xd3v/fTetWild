@@ -148,15 +148,24 @@ endif()
 
 # Main executable
 if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-        #add_executable(${PROJECT_NAME}_bin src/main.cpp)
+        add_executable(${PROJECT_NAME}_bin src/main.cpp)
         #target_compile_features(${PROJECT_NAME}_bin PUBLIC ${CXX14_FEATURES})
 
-        #target_link_libraries(${PROJECT_NAME}_bin
-        #	PUBLIC
+        target_link_libraries(${PROJECT_NAME}_bin
+                        PUBLIC
         #		${PROJECT_NAME}
-        #		CLI11::CLI11
-        #		warnings::all
-        #)
+                        CLI11::CLI11
+                        warnings::all
+                        igl::core
+                        igl::predicates
+                        geogram::geogram
+                        spdlog::spdlog
+                        Threads::Threads
+        #		fast_winding_number
+                        json
+                        ${GMP_LIBRARIES}
+                        # ${MPFR_LIBRARIES}
+        )
 
         if(TARGET igl::tetgen)
 		target_link_libraries(${PROJECT_NAME} PUBLIC igl::tetgen)
