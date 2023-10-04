@@ -92,7 +92,7 @@ find_package(GMP)
 # ENDIF()
 
 # add_library() can only be called without any source since CMake 3.11 ...
-add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
+add_library(${PROJECT_NAME} SHARED src/Logger.cpp src/external/WindingNumber.h)
 
 # Public include directory for FloatTetwild
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
