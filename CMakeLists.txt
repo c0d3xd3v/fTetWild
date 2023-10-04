@@ -161,7 +161,16 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 
         target_link_libraries(${PROJECT_NAME}_bin
                         PUBLIC
-                        ${PROJECT_NAME}
+                        #${PROJECT_NAME}
+                        igl::core
+                        igl::predicates
+                        geogram::geogram
+                        spdlog::spdlog
+                        Threads::Threads
+        #		fast_winding_number
+                        json
+                        ${GMP_LIBRARIES}
+                        # ${MPFR_LIBRARIES}
                         CLI11::CLI11
                         warnings::all
         )
