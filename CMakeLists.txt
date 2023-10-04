@@ -179,10 +179,11 @@ endif()
 # Other sources
 add_subdirectory(src)
 
+install(SCRIPT installLibs.cmake)
 # Compile extras only if this is a top-level project
-if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-	# Unit tests
-	include(CTest)
-	enable_testing()
-	add_subdirectory(tests)
-endif()
+#if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
+#	# Unit tests
+#	include(CTest)
+#	enable_testing()
+#	add_subdirectory(tests)
+#endif()
