@@ -82,23 +82,13 @@ include(FloatTetwildDependencies)
 ################################################################################
 
 find_package(GMP)
-#IF(NOT ${GMP_FOUND})
-#	MESSAGE(FATAL_ERROR "Cannot find GMP")
-#ENDIF()
 
-# find_package(MPFR)
-# IF(NOT ${MPFR_FOUND})
-# 	MESSAGE(FATAL_ERROR "Cannot find MPFR")
-# ENDIF()
 
 # add_library() can only be called without any source since CMake 3.11 ...
 add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
 
 # Public include directory for FloatTetwild
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
-
-# set(MESH_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
-# target_compile_definitions(${PROJECT_NAME} PUBLIC -DFLOAT_TETWILD_MESH_PATH=\"${MESH_PATH}\")
 
 # Extra warnings
 target_link_libraries(${PROJECT_NAME} PRIVATE warnings::all)
