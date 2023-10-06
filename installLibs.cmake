@@ -1,4 +1,4 @@
-message(STATUS "Try to install Tetwild libs from ${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Search for files in : ${CMAKE_CURRENT_BINARY_DIR}")
 
 FILE(GLOB_RECURSE lib_list *.lib)
 list(LENGTH lib_list lib_list_count)
@@ -6,6 +6,14 @@ FOREACH(_LIB ${lib_list})
     get_filename_component(FN ${_LIB} NAME)
     file(INSTALL ${_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 ENDFOREACH()
+
+FILE(GLOB_RECURSE header_list "*.h")
+list(LENGTH header_list header_list_count)
+FOREACH(_HEADER ${header_list})
+    get_filename_component(FN ${_HEADER} NAME)
+    file(INSTALL ${_HEADER} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+ENDFOREACH()
+
 
 FILE(GLOB_RECURSE dll_list "*.dll")
 list(LENGTH dll_list dll_list_count)
