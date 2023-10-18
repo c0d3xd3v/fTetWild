@@ -14,7 +14,6 @@ FOREACH(_HEADER ${header_list})
     file(INSTALL ${_HEADER} DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 ENDFOREACH()
 
-
 FILE(GLOB_RECURSE dll_list "*.dll")
 list(LENGTH dll_list dll_list_count)
 FOREACH(_DLL ${dll_list})
