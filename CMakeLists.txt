@@ -1,12 +1,5 @@
 ################################################################################
 cmake_minimum_required(VERSION 3.8)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-#set(CMAKE_USER_MAKE_RULES_OVERRIDE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/c_flag_overrides.cmake)
-#set(CMAKE_USER_MAKE_RULES_OVERRIDE_CXX ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cxx_flag_overrides.cmake)
-
-
 project(FloatTetwild)
 ################################################################################
 
@@ -23,6 +16,8 @@ if(INPUT_THIRD_PARTY_DIR)
 else()
 	set(FLOAT_TETWILD_EXTERNAL ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/)
 endif()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Color output
 include(UseColors)
@@ -81,14 +76,24 @@ include(FloatTetwildDependencies)
 # FloatTetwild library
 ################################################################################
 
-find_package(GMP)
+find_package(GMPfTetWild)
+IF(NOT ${GMP_FOUND})
+	MESSAGE(FATAL_ERROR "Cannot find GMP")
+ENDIF()
 
+# find_package(MPFR)
+# IF(NOT ${MPFR_FOUND})
+# 	MESSAGE(FATAL_ERROR "Cannot find MPFR")
+# ENDIF()
 
 # add_library() can only be called without any source since CMake 3.11 ...
 add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
 
 # Public include directory for FloatTetwild
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
+
+# set(MESH_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
+# target_compile_definitions(${PROJECT_NAME} PUBLIC -DFLOAT_TETWILD_MESH_PATH=\"${MESH_PATH}\")
 
 # Extra warnings
 target_link_libraries(${PROJECT_NAME} PRIVATE warnings::all)
@@ -109,14 +114,14 @@ endif()
 ################################################################################
 
 if(FLOAT_TETWILD_USE_FLOAT)
-	target_compile_definitions(${PROJECT_NAME} PUBLIC -DFLOAT_TETWILD_USE_FLOAT)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC -DFLOAT_TETWILD_USE_FLOAT)
 endif()
 
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GMP_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
-	PUBLIC
-		igl::core
+        PUBLIC
+                igl::core
 		igl::predicates
 		geogram::geogram
 		spdlog::spdlog
@@ -124,17 +129,16 @@ target_link_libraries(${PROJECT_NAME}
 #		fast_winding_number
 		json
 		${GMP_LIBRARIES}
-                # ${MPFR_LIBRARIES}
+		# ${MPFR_LIBRARIES}
 )
-
 if(FLOAT_TETWILD_ENABLE_TBB)
 	target_link_libraries(${PROJECT_NAME} PUBLIC tbb::tbb)
-	target_compile_definitions(${PROJECT_NAME} PUBLIC FLOAT_TETWILD_USE_TBB)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC FLOAT_TETWILD_USE_TBB)
 endif()
 
 if(FLOAT_TETWILD_WITH_EXACT_ENVELOPE)
 	target_link_libraries(${PROJECT_NAME} PUBLIC FastEnvelope)
-	target_compile_definitions(${PROJECT_NAME} PUBLIC NEW_ENVELOPE)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC NEW_ENVELOPE)
 endif()
 
 
@@ -144,34 +148,46 @@ endif()
 
 # Main executable
 if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
+	add_executable(${PROJECT_NAME}_bin src/main.cpp)
+	target_compile_features(${PROJECT_NAME}_bin PUBLIC ${CXX14_FEATURES})
 
-#        add_executable(${PROJECT_NAME}_bin src/main.cpp)
-#        target_compile_features(${PROJECT_NAME}_bin PUBLIC cxx_std_11)
-         #target_include_directories(${PROJECT_NAME}_bin PUBLIC ${PROJECT_BINARY_DIR}/include)
+	target_link_libraries(${PROJECT_NAME}_bin
+		PUBLIC
+                        ${PROJECT_NAME}
+			CLI11::CLI11
+			warnings::all
+	)
 
-#        set_property(TARGET ${PROJECT_NAME}_bin PROPERTY
-#                     MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
-
-#        target_link_libraries(${PROJECT_NAME}_bin
-#                        PUBLIC
-#                        #${PROJECT_NAME}
-#                        CLI11::CLI11
-#                        warnings::all
-#        )
-
-        if(TARGET igl::tetgen)
+	if(TARGET igl::tetgen)
 		target_link_libraries(${PROJECT_NAME} PUBLIC igl::tetgen)
 		target_compile_definitions(${PROJECT_NAME} PUBLIC -DLIBIGL_WITH_TETGEN)
 	endif()
 
-        #if(FLOAT_TETWILD_WITH_SANITIZERS)
-        #	add_sanitizers(${PROJECT_NAME}_bin)
-        #endif()
+	if(FLOAT_TETWILD_WITH_SANITIZERS)
+		add_sanitizers(${PROJECT_NAME}_bin)
+	endif()
 
-        #if(NOT (${CMAKE_VERSION} VERSION_LESS "3.6.0"))
-        #	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
-        #endif()
+	if(NOT (${CMAKE_VERSION} VERSION_LESS "3.6.0"))
+		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
+        endif()
+
 endif()
+
+install(SCRIPT installLibs.cmake)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+
+#FILE(GLOB_RECURSE lib_list *.a)
+#add_custom_target(combined ALL
+#      COMMAND ${CMAKE_AR} rc libcombined.a ${lib_list})
+
+
+#install(
+#    EXPORT ${PROJECT_NAME}Targets
+#    FILE ${PROJECT_NAME}Targets.cmake
+#    DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake"
+#    NAMESPACE ${PROJECT_NAME}::
+#)
 
 ################################################################################
 # Subdirectories
@@ -180,11 +196,10 @@ endif()
 # Other sources
 add_subdirectory(src)
 
-install(SCRIPT installLibs.cmake)
 # Compile extras only if this is a top-level project
 #if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-#	# Unit tests
-#	include(CTest)
-#	enable_testing()
-#	add_subdirectory(tests)
+	# Unit tests
+	#include(CTest)
+	#enable_testing()
+	#add_subdirectory(tests)
 #endif()
