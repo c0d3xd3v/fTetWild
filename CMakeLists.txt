@@ -175,7 +175,7 @@ endif()
 
 install(SCRIPT installLibs.cmake)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
 
 #FILE(GLOB_RECURSE lib_list *.a)
 #add_custom_target(combined ALL
