@@ -76,7 +76,7 @@ include(FloatTetwildDependencies)
 # FloatTetwild library
 ################################################################################
 
-find_package(GMP)
+#find_package(GMP)
 #IF(NOT ${GMP_FOUND})
 #	MESSAGE(FATAL_ERROR "Cannot find GMP")
 #ENDIF()
@@ -91,9 +91,6 @@ add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
 
 # Public include directory for FloatTetwild
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
-
-# set(MESH_PATH "${CMAKE_CURRENT_SOURCE_DIR}/tests/")
-# target_compile_definitions(${PROJECT_NAME} PUBLIC -DFLOAT_TETWILD_MESH_PATH=\"${MESH_PATH}\")
 
 # Extra warnings
 target_link_libraries(${PROJECT_NAME} PRIVATE warnings::all)
@@ -121,7 +118,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GMP_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
         PUBLIC
-                igl::core
+		igl::core
 		igl::predicates
 		geogram::geogram
 		spdlog::spdlog
@@ -147,16 +144,18 @@ endif()
 ################################################################################
 
 # Main executable
-# if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-# 	add_executable(${PROJECT_NAME}_bin src/main.cpp)
-# 	target_compile_features(${PROJECT_NAME}_bin PUBLIC ${CXX14_FEATURES})
-# 
-# 	target_link_libraries(${PROJECT_NAME}_bin
-# 		PUBLIC
-#                         ${PROJECT_NAME}
-# 			CLI11::CLI11
-# 			warnings::all
-# 	)
+if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
+ 	add_executable(${PROJECT_NAME}_bin src/main.cpp)
+ 	target_compile_features(${PROJECT_NAME}_bin PUBLIC ${CXX14_FEATURES})
+ 
+ 	target_link_libraries(${PROJECT_NAME}_bin
+			PUBLIC
+			${PROJECT_NAME}
+			${GMP_LIBRARIES}
+			gmp
+ 			CLI11::CLI11
+ 			warnings::all
+ 	)
 # 
 # 	if(TARGET igl::tetgen)
 # 		target_link_libraries(${PROJECT_NAME} PUBLIC igl::tetgen)
@@ -171,23 +170,12 @@ endif()
 # 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME}_bin)
 #         endif()
 # 
-# endif()
+endif()
 
 install(SCRIPT installLibs.cmake)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
-#FILE(GLOB_RECURSE lib_list *.a)
-#add_custom_target(combined ALL
-#      COMMAND ${CMAKE_AR} rc libcombined.a ${lib_list})
-
-
-#install(
-#    EXPORT ${PROJECT_NAME}Targets
-#    FILE ${PROJECT_NAME}Targets.cmake
-#    DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake"
-#    NAMESPACE ${PROJECT_NAME}::
-#)
 
 ################################################################################
 # Subdirectories
