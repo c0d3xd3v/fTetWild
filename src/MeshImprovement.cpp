@@ -1674,7 +1674,7 @@ void floatTetWild::filter_outside(Mesh& mesh, bool invert_faces) {
 //    if(!mesh.params.use_general_wn)
 //        floatTetWild::fast_winding_number(Eigen::MatrixXd(V.cast<double>()), Eigen::MatrixXi(F), C, W);
 //    else
-        igl::winding_number(Eigen::MatrixXd(V.cast<double>()), Eigen::MatrixXi(F), C, W);
+    igl::winding_number(Eigen::MatrixXd(V.cast<double>()), Eigen::MatrixXi(F), C, W);
 
     index = 0;
     int n_tets = 0;

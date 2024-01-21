@@ -16,6 +16,7 @@
 namespace floatTetWild {
     class AABBWrapper {
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         GEO::Mesh b_mesh;
         GEO::Mesh tmp_b_mesh;
         const GEO::Mesh &sf_mesh;

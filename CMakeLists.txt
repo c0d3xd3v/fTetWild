@@ -10,7 +10,7 @@ if(HAS_PARENT)
 else()
 	set(FLOAT_TETWILD_TOPLEVEL_PROJECT ON)
 endif()
-
+set(FLOAT_TETWILD_TOPLEVEL_PROJECT OFF)
 if(INPUT_THIRD_PARTY_DIR)
 	set(FLOAT_TETWILD_EXTERNAL ${CMAKE_CURRENT_SOURCE_DIR}/${INPUT_THIRD_PARTY_DIR}/)
 else()
@@ -80,14 +80,21 @@ find_package(GMP)
 #IF(NOT ${GMP_FOUND})
 #	MESSAGE(FATAL_ERROR "Cannot find GMP")
 #ENDIF()
-
+find_package(Qt5 REQUIRED COMPONENTS Quick QuickControls2 Widgets Gui)
 # find_package(MPFR)
 # IF(NOT ${MPFR_FOUND})
 # 	MESSAGE(FATAL_ERROR "Cannot find MPFR")
 # ENDIF()
+find_package(libigl)
 
 # add_library() can only be called without any source since CMake 3.11 ...
-add_library(${PROJECT_NAME} src/Logger.cpp src/external/WindingNumber.h)
+add_library(${PROJECT_NAME} 
+src/tetrahedralize.hpp
+src/tetrahedralize.cpp
+src/Utils.hpp
+src/Utils.cpp
+src/Logger.cpp 
+src/external/WindingNumber.h)
 
 # Public include directory for FloatTetwild
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
@@ -121,7 +128,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GMP_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
         PUBLIC
-                igl::core
+		igl::core
 		igl::predicates
 		geogram::geogram
 		spdlog::spdlog
@@ -158,6 +165,25 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 			warnings::all
 	)
 
+        add_executable(test_app_bin src/test_app.cpp
+									src/tetrahedralize.hpp
+									src/tetrahedralize.cpp
+									src/Utils.hpp
+									src/Utils.cpp
+									src/Logger.cpp )
+        target_link_libraries(test_app_bin
+								${PROJECT_NAME}
+								igl::core
+								igl::predicates
+								geogram::geogram
+								spdlog::spdlog
+								tbb::tbb
+								Threads::Threads
+								Qt5::Gui
+								Qt5::Quick
+								Qt5::Widgets
+								Eigen3::Eigen)
+	target_include_directories(test_app_bin PUBLIC ${PROJECT_BINARY_DIR}/include)
 	if(TARGET igl::tetgen)
 		target_link_libraries(${PROJECT_NAME} PUBLIC igl::tetgen)
 		target_compile_definitions(${PROJECT_NAME} PUBLIC -DLIBIGL_WITH_TETGEN)
@@ -174,8 +200,8 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 endif()
 
 install(SCRIPT installLibs.cmake)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/build/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include/)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
 #FILE(GLOB_RECURSE lib_list *.a)
 #add_custom_target(combined ALL

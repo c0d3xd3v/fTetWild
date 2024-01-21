@@ -65,6 +65,7 @@ public:
 
     class MeshVertex {
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         MeshVertex(const Vector3& p): pos(p){}
         MeshVertex() {}
 
@@ -101,6 +102,7 @@ public:
 
     class MeshTet {
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         Vector4i indices;
 
         MeshTet() {}
@@ -162,6 +164,7 @@ public:
 
     class Mesh {
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 // #ifdef FLOAT_TETWILD_USE_TBB
 //             tbb::concurrent_vector<MeshVertex> tet_vertices;
 //             tbb::concurrent_vector<MeshTet> tets;
