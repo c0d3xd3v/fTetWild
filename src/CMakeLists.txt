@@ -55,6 +55,14 @@ set(SOURCES
 	Types.hpp
 
 	Statistics.h
+
+	tetrahedralize.hpp
+	tetrahedralize.cpp
+	Utils.hpp
+	Utils.cpp
+	
+	ftetwildwrapper.h
+	ftetwildwrapper.cpp
 )
 
 prepend_current_path(SOURCES)

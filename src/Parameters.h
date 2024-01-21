@@ -19,6 +19,7 @@
 namespace floatTetWild {
     class Parameters {
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         std::string log_path = "";
         std::string input_path = "";
         std::string output_path = "";
