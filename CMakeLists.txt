@@ -87,6 +87,8 @@ find_package(GMP)
 # ENDIF()
 find_package(libigl)
 
+add_definitions(-DEIGEN_DONT_VECTORIZE)
+
 # add_library() can only be called without any source since CMake 3.11 ...
 add_library(${PROJECT_NAME} 
 src/tetrahedralize.hpp
