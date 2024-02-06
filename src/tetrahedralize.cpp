@@ -639,7 +639,7 @@ namespace wildmeshing_binding
     {
         Eigen::MatrixXd V;
         Eigen::MatrixXi F;
-        get_surface(mesh, V, F);
+        get_boundary_surface_indices(mesh, F);
         Ft = F;
     }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#define WILDMESHING_SKIP_BINDINGS
+//#define WILDMESHING_SKIP_BINDINGS
 
 #ifndef WILDMESHING_SKIP_BINDINGS
 #include <pybind11/pybind11.h>

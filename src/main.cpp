@@ -94,6 +94,9 @@ void connect_2_meshes(std::string m1, std::string m2, std::string m);
 // extern "C" void exactinit();
 int main(int argc, char** argv)
 {
+    std::cout << "EIGEN_MAJOR_VERSION : " << EIGEN_MAJOR_VERSION << std::endl;
+    std::cout << "EIGEN_MINOR_VERSION : " << EIGEN_MINOR_VERSION << std::endl;
+
 #ifdef STORE_SAMPLE_POINTS
     cout << "STORE_SAMPLE_POINTS defined" << endl;
 #endif
