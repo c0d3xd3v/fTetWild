@@ -2728,7 +2728,7 @@ void floatTetWild::get_boundary_surface_indices(Mesh& mesh, Eigen::MatrixXi& F) 
         if(!is_inv)
             std::swap(b_faces.back()[1], b_faces.back()[2]);
     }
-    /*
+
     std::vector<int> b_v_ids;
     for (int i = 0; i < b_faces.size(); i++) {
         for (int j = 0; j < 3; j++) {
@@ -2736,15 +2736,14 @@ void floatTetWild::get_boundary_surface_indices(Mesh& mesh, Eigen::MatrixXi& F) 
         }
     }
     vector_unique(b_v_ids);
-    */
-            ///
+
     //V.resize(b_v_ids.size(), 3);
     F.resize(b_faces.size(), 3);
     /*
     std::map<int, int> map_v_ids;
     for (int i = 0; i < b_v_ids.size(); i++) {
         map_v_ids[b_v_ids[i]] = i;
-        //V.row(i) = tet_vertices[b_v_ids[i]].pos;
+        V.row(i) = tet_vertices[b_v_ids[i]].pos;
     }
     */
     for (int i = 0; i < b_faces.size(); i++) {

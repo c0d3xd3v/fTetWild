@@ -637,9 +637,10 @@ namespace wildmeshing_binding
 
     void Tetrahedralizer::get_surface_triangles(Eigen::Matrix<int, Eigen::Dynamic, 3> &Ft)
     {
-        Eigen::MatrixXd V;
         Eigen::MatrixXi F;
+        std::cout << "python : " << mesh.tet_vertices.size() << std::endl;
         get_boundary_surface_indices(mesh, F);
+        std::cout << F << std::endl;
         Ft = F;
     }
 

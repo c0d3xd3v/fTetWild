@@ -23,3 +23,10 @@ FOREACH(_LIB ${lib_list})
         file(INSTALL ${_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
     endif()
 ENDFOREACH()
+
+if (WIN32)
+    file(INSTALL ${CMAKE_CURRENT_BINARY_DIR}/pytetwild.dll DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
+else()
+    file(INSTALL ${CMAKE_CURRENT_BINARY_DIR}/pytetwild.so DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
+endif ()
+

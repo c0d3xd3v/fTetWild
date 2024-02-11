@@ -20,6 +20,7 @@
 
 #include <igl/Timer.h>
 #include <igl/write_triangle_mesh.h>
+#include <igl/remove_unreferenced.h>
 
 #include <geogram/basic/command_line.h>
 #include <geogram/basic/command_line_args.h>

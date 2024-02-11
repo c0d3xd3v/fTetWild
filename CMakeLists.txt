@@ -95,11 +95,11 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GMP_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC -DEIGEN_DONT_VECTORIZE)
-# Extra warnings
-target_link_libraries(${PROJECT_NAME} PRIVATE warnings::all)
 # Use C++11
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 target_compile_definitions(${PROJECT_NAME} PRIVATE -DWILDMESHING_SKIP_BINDINGS)
+# Extra warnings
+target_link_libraries(${PROJECT_NAME} PRIVATE warnings::all)
 if(FLOAT_TETWILD_WITH_SANITIZERS)
 	add_sanitizers(${PROJECT_NAME})
 endif()
@@ -120,9 +120,18 @@ target_link_libraries(${PROJECT_NAME}
         OpenMP::OpenMP_CXX
         ${GMP_LIBRARIES}
 )
+if(FLOAT_TETWILD_ENABLE_TBB)
+        target_link_libraries(${PROJECT_NAME} PUBLIC tbb::tbb)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC FLOAT_TETWILD_USE_TBB)
+endif()
+
+if(FLOAT_TETWILD_WITH_EXACT_ENVELOPE)
+        target_link_libraries(${PROJECT_NAME} PUBLIC FastEnvelope)
+        target_compile_definitions(${PROJECT_NAME} PUBLIC NEW_ENVELOPE)
+endif()
 
 if(FLOAT_TETWILD_WITH_PYTHON_WRAPPER)
-    add_library(wildmeshing MODULE
+    add_library(pytetwild MODULE
             src/Utils.cpp
             src/Utils.hpp
             src/tetrahedralize.cpp
@@ -130,20 +139,9 @@ if(FLOAT_TETWILD_WITH_PYTHON_WRAPPER)
             src/ftetwildwrapper.h
             src/ftetwildwrapper.cpp
             src/bindings.cpp)
-    target_link_libraries(wildmeshing PRIVATE pybind11::module ${PROJECT_NAME} ${GMP_LIBRARIES} OpenMP::OpenMP_CXX)
-    # set_target_properties(wildmeshing PROPERTIES PREFIX "${PYTHON_MODULE_PREFIX}" SUFFIX "${PYTHON_MODULE_EXTENSION}")
+    target_link_libraries(pytetwild PRIVATE pybind11::module ${PROJECT_NAME} ${GMP_LIBRARIES} OpenMP::OpenMP_CXX)
+    SET_TARGET_PROPERTIES(pytetwild PROPERTIES PREFIX "")
 endif()
-
-if(FLOAT_TETWILD_ENABLE_TBB)
-	target_link_libraries(${PROJECT_NAME} PUBLIC tbb::tbb)
-        target_compile_definitions(${PROJECT_NAME} PUBLIC FLOAT_TETWILD_USE_TBB)
-endif()
-
-if(FLOAT_TETWILD_WITH_EXACT_ENVELOPE)
-	target_link_libraries(${PROJECT_NAME} PUBLIC FastEnvelope)
-        target_compile_definitions(${PROJECT_NAME} PUBLIC NEW_ENVELOPE)
-endif()
-
 
 ################################################################################
 # FloatTetwild binary
@@ -179,9 +177,9 @@ endif()
 
 install(SCRIPT installLibs.cmake)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/python/fTetwild/ DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/spdlog/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-
 
 ################################################################################
 # Subdirectories

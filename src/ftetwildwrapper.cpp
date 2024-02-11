@@ -157,13 +157,89 @@ void FTetWildWrapper::save()
 
 void FTetWildWrapper::getSurfaceIndices(Eigen::MatrixXi &tris, Eigen::MatrixXi &tets, Eigen::MatrixXf &nodes)
 {
-    nodes.resize(mesh->tet_vertices.size(), 3);
+    Eigen::MatrixXd flags;
+    Eigen::MatrixXd V;
+    Eigen::MatrixXi T;
+
+    Eigen::MatrixXd Vout;
+    Eigen::MatrixXi Fout;
+
+    const auto skip_tet = [this](const int i)
+    { return mesh->tets[i].is_removed; };
+    const auto skip_vertex = [this](const int i)
+    { return mesh->tet_vertices[i].is_removed; };
+    std::vector<int> t_ids(mesh->tets.size());
+    std::iota(std::begin(t_ids), std::end(t_ids), 0);
+
+    int cnt_v = 0;
+    std::map<int, int> old_2_new;
+    for (int i = 0; i < mesh->tet_vertices.size(); i++)
+    {
+        if (!skip_vertex(i))
+        {
+            old_2_new[i] = cnt_v;
+            cnt_v++;
+        }
+    }
+    int cnt_t = 0;
+    for (const int i : t_ids)
+    {
+        if (!skip_tet(i))
+            cnt_t++;
+    }
+
+    V.resize(cnt_v, 3);
+    int index = 0;
+    for (size_t i = 0; i < mesh->tet_vertices.size(); i++)
+    {
+        if (skip_vertex(i))
+            continue;
+        V.row(index++) << mesh->tet_vertices[i][0], mesh->tet_vertices[i][1], mesh->tet_vertices[i][2];
+    }
+
+    T.resize(cnt_t, 4);
+    flags.resize(cnt_t, 1);
+    index = 0;
+
+    const std::array<int, 4> new_indices = {{0, 1, 3, 2}};
+
+    for (const int i : t_ids)
+    {
+        if (skip_tet(i))
+            continue;
+        for (int j = 0; j < 4; j++)
+        {
+            T(index, j) = old_2_new[mesh->tets[i][new_indices[j]]];
+        }
+        flags(index) = mesh->tets[i].scalar;
+        index++;
+    }
+
+    Eigen::MatrixXi I;
+    Eigen::MatrixXd Vs;
+    Eigen::MatrixXi Ts;
+    igl::remove_unreferenced(V, T, Vs, Ts, I);
+
+    std::cout << V.rows() << ", " << V.cols() << std::endl;
+    std::cout << Vs.rows() << ", " << Vs.cols() << std::endl;
+
+
+    std::cout << T.rows() << ", " << T.cols() << std::endl;
+    std::cout << Ts.rows() << ", " << Ts.cols() << std::endl;
+
+    floatTetWild::Mesh _mesh;
+    for(int i = 0; i < V.rows(); i++)
+        _mesh.tet_vertices.push_back(floatTetWild::MeshVertex(V.row(i)));
+    for(int i = 0; i < T.rows(); i++)
+        _mesh.tets.push_back(floatTetWild::MeshTet(T.row(i)));
+
+    nodes.resize(_mesh.tet_vertices.size(), 3);
     for(unsigned int i = 0; i < nodes.rows(); i++)
-        nodes.row(i) = mesh->tet_vertices[i].pos.cast<float>();
+        nodes.row(i) = _mesh.tet_vertices[i].pos.cast<float>();
 
-    tets.resize(mesh->tets.size(), 4);
+    tets.resize(_mesh.tets.size(), 4);
     for(unsigned int i = 0; i < tets.rows(); i++)
-        tets.row(i) = mesh->tets[i].indices;
+        tets.row(i) = _mesh.tets[i].indices;
 
-    floatTetWild::get_boundary_surface_indices(*mesh, tris);
+    floatTetWild::get_boundary_surface_indices(_mesh, tris);
 }

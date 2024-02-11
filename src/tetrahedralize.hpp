@@ -16,7 +16,6 @@ namespace wildmeshing_binding
     class Tetrahedralizer
     {
     public:
-        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         floatTetWild::Mesh mesh;
 
         std::vector<floatTetWild::Vector3> input_vertices;
