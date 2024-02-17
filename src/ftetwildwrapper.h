@@ -68,7 +68,7 @@ public:
     ~FTetWildWrapper();
     void loadMeshGeometry(Eigen::MatrixXf &nodes, Eigen::MatrixXi &tris);
     void tetrahedralize();
-    void save();
+    void save(const std::string &path);
     void getSurfaceIndices(Eigen::MatrixXi &tris, Eigen::MatrixXi &tets, Eigen::MatrixXf &nodes);
 };
 

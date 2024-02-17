@@ -134,8 +134,8 @@ if(FLOAT_TETWILD_WITH_PYTHON_WRAPPER)
     add_library(pytetwild MODULE
             src/Utils.cpp
             src/Utils.hpp
-            src/tetrahedralize.cpp
-            src/tetrahedralize.hpp
+#            src/tetrahedralize.cpp
+#            src/tetrahedralize.hpp
             src/ftetwildwrapper.h
             src/ftetwildwrapper.cpp
             src/bindings.cpp)

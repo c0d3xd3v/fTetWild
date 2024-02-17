@@ -24,9 +24,8 @@ FOREACH(_LIB ${lib_list})
     endif()
 ENDFOREACH()
 
-if (WIN32)
-    file(INSTALL ${CMAKE_CURRENT_BINARY_DIR}/pytetwild.dll DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
-else()
-    file(INSTALL ${CMAKE_CURRENT_BINARY_DIR}/pytetwild.so DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
-endif ()
-
+file(GLOB_RECURSE PYTETWILD_LIB ${CMAKE_CURRENT_BINARY_DIR}/*pytetwild.so
+                                ${CMAKE_CURRENT_BINARY_DIR}/*pytetwild.dll
+                                ${CMAKE_CURRENT_BINARY_DIR}/*pytetwild.pyd)
+message(STATUS ${PYTETWILD_LIB})
+file(INSTALL ${PYTETWILD_LIB} DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)

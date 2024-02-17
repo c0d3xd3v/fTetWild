@@ -2,12 +2,12 @@
 
 //#include "triangulate_data.hpp"
 //#include "triangulate.hpp"
-#include "tetrahedralize.hpp"
+//#include "tetrahedralize.hpp"
 #include "ftetwildwrapper.h"
 
 PYBIND11_MODULE(pytetwild, m)
 {
-    wildmeshing_binding::tetrahedralize(m);
+    //wildmeshing_binding::tetrahedralize(m);
     py::class_<FTetWildWrapper>(m, "FTetWildWrapper")
             .def(py::init<
                      double, double, double>(),
@@ -38,10 +38,10 @@ PYBIND11_MODULE(pytetwild, m)
                 },
                 "get mesh")
                 .def(
-                    "save", [](FTetWildWrapper &t)
+                    "save", [](FTetWildWrapper &t, const std::string &path)
                     {
-                        t.save();
+                        t.save(path);
                     },
-                    "save mesh")
+                    "save mesh", py::arg("path"))
             ;
 }

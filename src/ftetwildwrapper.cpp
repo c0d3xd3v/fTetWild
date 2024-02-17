@@ -1,5 +1,4 @@
 #include "ftetwildwrapper.h"
-
 #include <memory>
 
 bool FTetWildWrapper::is_initialized = false;
@@ -140,19 +139,28 @@ void FTetWildWrapper::tetrahedralize()
     }
 }
 
-void FTetWildWrapper::save()
+void meshFromData(floatTetWild::Mesh &mesh, Eigen::MatrixXi &tets, Eigen::MatrixXf &nodes)
 {
-    Eigen::MatrixXd V_sf;
-    Eigen::MatrixXi F_sf;
-    floatTetWild::Parameters& params = mesh->params;
-    if (params.manifold_surface) {
-        floatTetWild::manifold_surface(*mesh, V_sf, F_sf);
-    }
-    else {
-        floatTetWild::get_surface(*mesh, V_sf, F_sf);
-    }
-    std::cout << "write : " << (params.output_path + "_" + params.postfix + ".obj") << std::endl;
-    igl::write_triangle_mesh(params.output_path + "_" + params.postfix + ".obj", V_sf, F_sf);
+    for(int i = 0; i < nodes.rows(); i++)
+        mesh.tet_vertices.push_back(floatTetWild::MeshVertex(floatTetWild::Vector3(nodes.row(i)[0], nodes.row(i)[1], nodes.row(i)[2])));
+
+    for(int i = 0; i < tets.rows(); i++)
+        mesh.tets.push_back(floatTetWild::MeshTet(tets.row(i)));
+}
+
+void FTetWildWrapper::save(const std::string &path)
+{
+    Eigen::MatrixXf V;
+    Eigen::MatrixXi T;
+    Eigen::MatrixXi F;
+    getSurfaceIndices(F, T, V);
+
+    floatTetWild::Mesh mesh;
+    meshFromData(mesh, T, V);
+
+    floatTetWild::Parameters& params = this->mesh->params;
+    igl::write_triangle_mesh(path + "_" + params.postfix + ".obj", V.cast<double>(), F);
+    floatTetWild::MeshIO::write_mesh(path + "_" + params.postfix + ".msh", mesh, false, std::vector<double>(), false);
 }
 
 void FTetWildWrapper::getSurfaceIndices(Eigen::MatrixXi &tris, Eigen::MatrixXi &tets, Eigen::MatrixXf &nodes)
