@@ -176,11 +176,11 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 
 endif()
 
-install(SCRIPT installLibs.cmake)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#install(SCRIPT installLibs.cmake)
+#INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 #INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/python/fTetwild/ DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/spdlog/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/spdlog/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
+#INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
 ################################################################################
 # Subdirectories
