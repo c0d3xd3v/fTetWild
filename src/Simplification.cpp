@@ -16,9 +16,10 @@
 #include <igl/unique_rows.h>
 
 #ifdef FLOAT_TETWILD_USE_TBB
-#include <tbb/task_scheduler_init.h>
+//#include <tbb/task_scheduler_init.h>
+#include <tbb/global_control.h>
 #include <tbb/parallel_for.h>
-#include <tbb/atomic.h>
+//#include <tbb/atomic.h>
 #include <tbb/concurrent_vector.h>
 #include <tbb/parallel_sort.h>
 #include <tbb/concurrent_unordered_set.h>
@@ -401,7 +402,7 @@ void floatTetWild::collapsing(std::vector<Vector3>& input_vertices, std::vector<
     };
 
 #ifdef FLOAT_TETWILD_USE_TBB
-    tbb::atomic<int> cnt(0);
+    std::atomic<int> cnt(0);
     int cnt_suc = 0;
     // tbb::atomic<int> fail_clean(0);
     // tbb::atomic<int> fail_flip(0);

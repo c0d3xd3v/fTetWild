@@ -12,9 +12,10 @@
 #include <igl/Timer.h>
 
 #ifdef FLOAT_TETWILD_USE_TBB
-#include <tbb/task_scheduler_init.h>
+//#include <tbb/task_scheduler_init.h>
+#include <tbb/global_control.h>
 #include <tbb/parallel_for.h>
-#include <tbb/atomic.h>
+//#include <tbb/atomic.h>
 #include <tbb/concurrent_vector.h>
 #include <tbb/parallel_sort.h>
 #endif

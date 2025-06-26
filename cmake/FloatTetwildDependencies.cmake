@@ -55,32 +55,20 @@ if(NOT TARGET geogram::geogram)
 endif()
 
 
-# TBB
 if(FLOAT_TETWILD_ENABLE_TBB AND NOT TARGET tbb::tbb)
-	float_tetwild_download_tbb()
+    float_tetwild_download_tbb()
 
-	set(PATCH_FILE ${CMAKE_CURRENT_LIST_DIR}/TBB-GCC13.patch)
-	set(PATCH_COMMAND ${GIT_EXECUTABLE} apply --whitespace=fix ${PATCH_FILE})
-	execute_process(COMMAND ${PATCH_COMMAND})
+    set(TBB_DIR ${FLOAT_TETWILD_EXTERNAL}/tbb)
+    add_subdirectory(${TBB_DIR} tbb_build)
 
-	set(TBB_BUILD_STATIC ON CACHE BOOL " " FORCE)
-	set(TBB_BUILD_SHARED OFF CACHE BOOL " " FORCE)
-	set(TBB_BUILD_TBBMALLOC OFF CACHE BOOL " " FORCE)
-	set(TBB_BUILD_TBBMALLOC_PROXY OFF CACHE BOOL " " FORCE)
-	set(TBB_BUILD_TESTS OFF CACHE BOOL " " FORCE)
-	set(TBB_NO_DATE ON CACHE BOOL " " FORCE)
-
-	add_subdirectory(${FLOAT_TETWILD_EXTERNAL}/tbb tbb)
-	set_target_properties(tbb_static PROPERTIES
-		INTERFACE_INCLUDE_DIRECTORIES "${FLOAT_TETWILD_EXTERNAL}/tbb/include"
-	)
-	if(NOT MSVC)
-		set_target_properties(tbb_static PROPERTIES
-			COMPILE_FLAGS "-Wno-implicit-fallthrough -Wno-missing-field-initializers -Wno-unused-parameter -Wno-keyword-macro"
-		)
-		set_target_properties(tbb_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
-	endif()
-	add_library(tbb::tbb ALIAS tbb_static)
+    # Wenn tbb_static existiert, gut — wenn nicht, verwende tbb
+    if(TARGET tbb_static)
+        add_library(tbb::tbb ALIAS tbb_static)
+    elseif(TARGET tbb)
+        add_library(tbb::tbb ALIAS tbb)
+    else()
+        message(FATAL_ERROR "Kein gültiges TBB-Target gefunden.")
+    endif()
 endif()
 
 # C++11 threads
