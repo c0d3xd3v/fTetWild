@@ -2679,6 +2679,7 @@ void floatTetWild::get_surface(Mesh& mesh, Eigen::MatrixXd& V, Eigen::MatrixXi& 
     }
 }
 
+/*
 void floatTetWild::get_boundary_surface_indices(Mesh& mesh, Eigen::MatrixXi& F) {
     auto &tets = mesh.tets;
     auto &tet_vertices = mesh.tet_vertices;
@@ -2739,17 +2740,18 @@ void floatTetWild::get_boundary_surface_indices(Mesh& mesh, Eigen::MatrixXi& F) 
 
     //V.resize(b_v_ids.size(), 3);
     F.resize(b_faces.size(), 3);
-    /*
-    std::map<int, int> map_v_ids;
-    for (int i = 0; i < b_v_ids.size(); i++) {
-        map_v_ids[b_v_ids[i]] = i;
-        V.row(i) = tet_vertices[b_v_ids[i]].pos;
-    }
-    */
+
+    //std::map<int, int> map_v_ids;
+    //for (int i = 0; i < b_v_ids.size(); i++) {
+    //    map_v_ids[b_v_ids[i]] = i;
+    //    V.row(i) = tet_vertices[b_v_ids[i]].pos;
+    //}
+
     for (int i = 0; i < b_faces.size(); i++) {
         F.row(i) << b_faces[i][0], b_faces[i][1], b_faces[i][2];
     }
 }
+*/
 
 #include <igl/is_vertex_manifold.h>
 void floatTetWild::manifold_surface(Mesh& mesh, Eigen::MatrixXd& V, Eigen::MatrixXi& F) {
