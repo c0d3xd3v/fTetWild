@@ -28,7 +28,8 @@ endfunction()
 function(float_tetwild_download_libigl)
     float_tetwild_download_project(libigl
         GIT_REPOSITORY https://github.com/libigl/libigl.git
-        GIT_TAG        45cfc79fede992ea3923ded9de3c21d1c4faced1
+        #GIT_TAG        45cfc79fede992ea3923ded9de3c21d1c4faced1
+        GIT_TAG        v2.6.0
     )
 endfunction()
 
@@ -52,11 +53,12 @@ endfunction()
 function(float_tetwild_download_cli11)
     float_tetwild_download_project(cli11
             GIT_REPOSITORY https://github.com/CLIUtils/CLI11.git
-            GIT_TAG        v2.0.0
+            GIT_TAG        v2.5.0
     )
 endfunction()
 
 ## tbb
+set(TBB_TEST OFF CACHE BOOL "" FORCE)
 function(float_tetwild_download_tbb)
     float_tetwild_download_project(tbb
     GIT_REPOSITORY https://github.com/uxlfoundation/oneTBB.git
@@ -78,7 +80,7 @@ endfunction()
 function(float_tetwild_download_fmt)
     float_tetwild_download_project(fmt
     GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-    GIT_TAG        5.3.0
+    GIT_TAG        9.0.0
     )
 endfunction()
 
@@ -86,7 +88,7 @@ endfunction()
 function(float_tetwild_download_spdlog)
     float_tetwild_download_project(spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG        v1.3.1
+    GIT_TAG        v1.11.0
     )
 endfunction()
 

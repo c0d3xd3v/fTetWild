@@ -43,4 +43,4 @@ namespace floatTetWild {
     typedef Eigen::Matrix<int, 4, 1> Vector4i;
     typedef Eigen::Matrix<int, 3, 1> Vector3i;
     typedef Eigen::Matrix<int, 2, 1> Vector2i;
-	}
+}

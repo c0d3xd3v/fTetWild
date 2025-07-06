@@ -23,7 +23,7 @@
 #include <floattetwild/CSGTreeParser.hpp>
 #include <floattetwild/Mesh.hpp>
 #include <floattetwild/MeshIO.hpp>
-
+#include <floattetwild/Types.hpp>
 #include <Eigen/Dense>
 #include <floattetwild/Logger.hpp>
 
@@ -333,8 +333,8 @@ int main(int argc, char** argv)
     }
 
     /// set input tage
-    std::vector<Vector3>  input_vertices;
-    std::vector<Vector3i> input_faces;
+    std::vector<floatTetWild::Vector3>  input_vertices;
+    std::vector<floatTetWild::Vector3i> input_faces;
     std::vector<int>      input_tags;
     //    std::vector<double> input_epsr_tags;
 

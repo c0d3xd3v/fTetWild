@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(FloatTetwild)
 ################################################################################
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Detects whether this is a top-level project
 get_directory_property(HAS_PARENT PARENT_DIRECTORY)
