@@ -46,7 +46,6 @@ option(FLOAT_TETWILD_ENABLE_TBB         "Enable TBB"                    ON)
 option(FLOAT_TETWILD_USE_FLOAT          "Use floats instead of double"  OFF)
 option(FLOAT_TETWILD_WITH_SANITIZERS    "Use sanitizers"                OFF)
 option(FLOAT_TETWILD_WITH_EXACT_ENVELOPE    "Use exact envelope"        OFF)
-#option(FLOAT_TETWILD_WITH_PYTHON_WRAPPER    "python wrapper"        ON)
 
 # Sanitizer options
 option(SANITIZE_ADDRESS   "Sanitize Address"       OFF)
@@ -84,10 +83,7 @@ if(WIN32)
 else()
     set(GMP_LIBRARIES gmp)
 endif()
-if(FLOAT_TETWILD_WITH_PYTHON_WRAPPER)
-    find_package(pybind11)
-    find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-endif()
+
 find_package(OpenMP REQUIRED)
 
 # add_library() can only be called without any source since CMake 3.11 ...
@@ -133,19 +129,6 @@ if(FLOAT_TETWILD_WITH_EXACT_ENVELOPE)
         target_compile_definitions(${PROJECT_NAME} PUBLIC NEW_ENVELOPE)
 endif()
 
-#if(FLOAT_TETWILD_WITH_PYTHON_WRAPPER)
-#    add_library(pytetwild MODULE
-#            src/Utils.cpp
-#            src/Utils.hpp
-#            src/tetrahedralize.cpp
-#            src/tetrahedralize.hpp
-#            src/ftetwildwrapper.h
-#            src/ftetwildwrapper.cpp
-#            src/bindings.cpp)
-#    target_link_libraries(pytetwild PRIVATE pybind11::module Python3::Python ${PROJECT_NAME} ${GMP_LIBRARIES} OpenMP::OpenMP_CXX tbb::tbb)
-#    SET_TARGET_PROPERTIES(pytetwild PROPERTIES PREFIX "")
-#endif()
-
 ################################################################################
 # FloatTetwild binary
 ################################################################################
@@ -178,23 +161,9 @@ if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
 
 endif()
 
-#install(SCRIPT installLibs.cmake)
-#INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/json/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/python/fTetwild/ DESTINATION ${CMAKE_INSTALL_PREFIX}/python/pytetwild)
-#INSTALL(DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/3rdparty/spdlog/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-#INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/ DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
-
 ################################################################################
 # Subdirectories
 ################################################################################
 
 # Other sources
 add_subdirectory(src)
-
-# Compile extras only if this is a top-level project
-#if(FLOAT_TETWILD_TOPLEVEL_PROJECT)
-	# Unit tests
-	#include(CTest)
-	#enable_testing()
-	#add_subdirectory(tests)
-#endif()

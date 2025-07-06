@@ -103,6 +103,9 @@ function(float_tetwild_download_geogram)
 endfunction()
 
 ## aabbcc
+# no versioning just master, so we use
+# a GIT_TAG hash to fix the version and
+# have more control.
 function(float_tetwild_download_aabbcc)
     float_tetwild_download_project(aabbcc
             GIT_REPOSITORY https://github.com/lohedges/aabbcc.git
