@@ -1,7 +1,3 @@
-Sure! Here's the full **English version** of the README section with the updated **dependency table** and clear notes about which libraries are versioned and which use fixed commit hashes.
-
----
-
 # Fork of fTetWild
 
 This is a fork of [`fTetWild`](https://github.com/wildmeshing/fTetWild), updated to build with modern toolchains such as **GCC ≥11** and **CMake ≥3.16**.
