@@ -31,6 +31,3 @@ The goal is to ensure compatibility with current dependencies, enable CI/CD, and
 * Some of these (like `aabbcc`, `fast-envelope`, `sanitizers-cmake`) have **no official versioning** and are expected to remain pinned.
 * The `fmt` library should be **updated to `v10.2.1`** soon to benefit from improved C++20/C++23 support and bug fixes.
 
----
-
-Would you like this to be saved as a full `README.md` file? I can output that next.
