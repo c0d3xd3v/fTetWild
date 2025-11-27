@@ -80,6 +80,7 @@ include(FloatTetwildDependencies)
 
 if(WIN32)
     find_package(GMP REQUIRED)
+    include_directories(${GMP_INCLUDE_DIRS} ${GMP_INCLUDE_DIR})
 else()
     set(GMP_LIBRARIES gmp)
 endif()
