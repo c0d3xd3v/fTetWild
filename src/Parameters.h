@@ -12,6 +12,8 @@
 #include <floattetwild/Types.hpp>
 
 #include <array>
+#include <functional>
+#include <string>
 #include <vector>
 
 #include <geogram/mesh/mesh.h>
@@ -47,6 +49,12 @@ namespace floatTetWild {
         Eigen::VectorXi T_sizing_field;
         Eigen::VectorXd values_sizing_field;
         std::function<double(const Vector3&)> get_sizing_field_value;//get sizing field value for an point
+
+        // Optional progress reporting. Called from the optimization loop
+        // (and from host code around other phases). stage is a short label,
+        // it/total describe the iteration if applicable (0/0 otherwise).
+        // Host code is responsible for thread-safety and throttling.
+        std::function<void(const std::string& stage, int it, int total)> progress_callback;
 
 #ifdef NEW_ENVELOPE
         std::vector<double> input_epsr_tags;//same length as the list of input faces

@@ -155,6 +155,9 @@ void floatTetWild::optimization(const std::vector<Vector3> &input_vertices, cons
     std::vector<std::array<Scalar, 2>> quality_queue;
     int cnt_increase_epsilon = mesh.params.stage - 1;
     for (int it = 0; it < mesh.params.max_its; it++) {
+        if (mesh.params.progress_callback)
+            mesh.params.progress_callback("optimizing", it, mesh.params.max_its);
+
         if (mesh.is_input_all_inserted)
             it_after_al_inserted++;
 
